@@ -333,5 +333,59 @@ A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx
 	</div>
 </div>
 
+## 使用 systemctl 部署，实现开机自启动
+#### 后端服务
+sudo vim /etc/systemd/system/chatgpt-backend.service 
+```bash
+# 添加以下内容
+[Unit]
+Description=chatgpt-backend
+[Service]
+WorkingDirectory=xxx/chatgpt-web/service # 请修改成你的后端服务文件夹的绝对路径
+ExecStart=/usr/local/bin/pnpm prod
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+```
+# 保存退出 :wq
+```bash
+sudo systemctl enable chatgpt-backend.service  # 开机自启
+sudo systemctl start chatgpt-backend.service  # 启动服务
+sudo systemctl status chatgpt-backend.service # 查看服务状态
+sudo systemctl stop chatgpt-backend.service # 停止服务
+```
+#### 前端服务
+sudo vim /etc/systemd/system/chatgpt-frontend.service 
+```bash
+# 添加以下内容
+[Unit]
+Description=chatgpt-frontend
+[Service]
+WorkingDirectory=xxx/chatgpt-web # 请修改成你的前端服务文件夹的绝对路径
+ExecStart=/usr/local/bin/pnpm run dev
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+```
+# 保存退出 :wq
+```bash
+sudo systemctl enable chatgpt-frontend.service  # 开机自启
+sudo systemctl start chatgpt-frontend.service  # 启动服务
+sudo systemctl status chatgpt-frontend.service # 查看服务状态
+sudo systemctl stop chatgpt-frontend.service # 停止服务
+```
+### frp
+```bash
+[chatgpt_tcp]
+type = tcp
+local_ip = 172.17.0.1     
+local_port = 1995
+remote_port = 1095
+```
+
 ## License
 MIT © [ChenZhaoYu](./license)
