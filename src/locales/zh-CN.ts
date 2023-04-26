@@ -29,7 +29,7 @@ export default {
   },
   chat: {
     newChatButton: '新建聊天',
-    placeholder: '来说点什么吧...（Shift + Enter = 换行，"/" 触发提示词）',
+    placeholder: 'Send a message.（Shift + Enter = 换行，遇到问题可以在设置中的留言板反馈）',
     placeholderMobile: '来说点什么...',
     copy: '复制',
     copied: '复制成功',
@@ -54,7 +54,7 @@ export default {
     setting: '设置',
     general: '总览',
     advanced: '高级',
-    config: '配置',
+    config: '留言板',
     avatarLink: '头像链接',
     name: '名称',
     description: '描述',

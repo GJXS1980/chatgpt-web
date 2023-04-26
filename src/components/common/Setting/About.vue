@@ -41,7 +41,24 @@ onMounted(() => {
 <template>
   <NSpin :show="loading">
     <div class="p-4 space-y-4">
-      <h2 class="text-xl font-bold">
+
+      <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
+        <p>
+          使用时遇到相关问题，点击
+          <a
+            class="text-blue-600 dark:text-blue-500"
+            href="http://www.aigrantli.com/s/%E7%95%99%E8%A8%80%E6%9D%BF"
+            target="_blank"
+          >
+            留言板
+          </a>
+          ，将您的问题尽量详细地描述，我会尽快回复或者解决。
+        </p>
+        <p>
+          如果你觉得此项目对你有帮助，请在 GitHub 帮我点个 Star 或者给予一点赞助，谢谢！
+        </p>
+      </div>
+      <!-- <h2 class="text-xl font-bold">
         Version - {{ pkg.version }}
       </h2>
       <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
@@ -69,7 +86,7 @@ onMounted(() => {
       </p>
       <p>{{ $t("setting.timeout") }}：{{ config?.timeoutMs ?? '-' }}</p>
       <p>{{ $t("setting.socks") }}：{{ config?.socksProxy ?? '-' }}</p>
-      <p>{{ $t("setting.httpsProxy") }}：{{ config?.httpsProxy ?? '-' }}</p>
+      <p>{{ $t("setting.httpsProxy") }}：{{ config?.httpsProxy ?? '-' }}</p> -->
     </div>
   </NSpin>
 </template>

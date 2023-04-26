@@ -29,7 +29,7 @@ export default {
   },
   chat: {
     newChatButton: '새로운 채팅',
-    placeholder: '무엇이든 물어보세요...(Shift + Enter = 줄바꿈, "/"를 눌러서 힌트를 보세요)',
+    placeholder: '무엇이든 물어보세요...(Shift + Enter = 줄바꿈, 문제가 발생하면 설정에서 메시지 보드로 피드백할 수 있습니다)',
     placeholderMobile: '무엇이든 물어보세요...',
     copy: '복사',
     copied: '복사됨',

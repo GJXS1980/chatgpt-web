@@ -29,7 +29,7 @@ export default {
   },
   chat: {
     newChatButton: '新增對話',
-    placeholder: '來說點什麼...（Shift + Enter = 換行，"/" 觸發提示詞）',
+    placeholder: 'Send a message.（Shift + Enter = 換行，遇到問題可以在設置中的留言板反饋）',
     placeholderMobile: '來說點什麼...',
     copy: '複製',
     copied: '複製成功',
@@ -54,7 +54,7 @@ export default {
     setting: '設定',
     general: '總覽',
     advanced: '進階',
-    config: '設定',
+    config: '留言板',
     avatarLink: '頭貼連結',
     name: '名稱',
     description: '描述',
