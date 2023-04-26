@@ -1,8 +1,6 @@
 # ChatGPT Web
 
-> 声明：此项目只发布于 GitHub，基于 MIT 协议，免费且作为开源学习使用。并且不会有任何形式的卖号、付费服务、讨论群、讨论组等行为。谨防受骗。
-
-更多功能：[chatgpt-web-plus](https://github.com/Chanzhaoyu/chatgpt-web-plus)
+> 声明：此项目只发布于 Github，基于 MIT 协议，免费且作为开源学习使用。并且不会有任何形式的卖号、付费服务、讨论群、讨论组等行为。谨防受骗。
 
 ![cover](./docs/c1.png)
 ![cover2](./docs/c2.png)
@@ -26,7 +24,6 @@
 			- [Docker 参数示例](#docker-参数示例)
 			- [Docker build \& Run](#docker-build--run)
 			- [Docker compose](#docker-compose)
-			- [防止爬虫抓取](#防止爬虫抓取)
 		- [使用 Railway 部署](#使用-railway-部署)
 			- [Railway 环境变量](#railway-环境变量)
 		- [手动打包](#手动打包)
@@ -53,7 +50,7 @@
 1. 你应该首先使用 `API` 方式
 2. 使用 `API` 时，如果网络不通，那是国内被墙了，你需要自建代理，绝对不要使用别人的公开代理，那是危险的。
 3. 使用 `accessToken` 方式时反向代理将向第三方暴露您的访问令牌，这样做应该不会产生任何不良影响，但在使用这种方法之前请考虑风险。
-4. 使用 `accessToken` 时，不管你是国内还是国外的机器，都会使用代理。默认代理为 [pengzhile](https://github.com/pengzhile) 大佬的 `https://ai.fakeopen.com/api/conversation`，这不是后门也不是监听，除非你有能力自己翻过 `CF` 验证，用前请知悉。[社区代理](https://github.com/transitive-bullshit/chatgpt-api#reverse-proxy)（注意：只有这两个是推荐，其他第三方来源，请自行甄别）
+4. 使用 `accessToken` 时，不管你是国内还是国外的机器，都会使用代理。默认代理为 [acheong08](https://github.com/acheong08) 大佬的 `https://bypass.churchless.tech/api/conversation`，这不是后门也不是监听，除非你有能力自己翻过 `CF` 验证，用前请知悉。[社区代理](https://github.com/transitive-bullshit/chatgpt-api#reverse-proxy)（注意：只有这两个是推荐，其他第三方来源，请自行甄别）
 5. 把项目发布到公共网络时，你应该设置 `AUTH_SECRET_KEY` 变量添加你的密码访问权限，你也应该修改 `index.html` 中的 `title`，防止被关键词搜索到。
 
 切换方式：
@@ -163,7 +160,7 @@ pnpm dev
 `ACCESS_TOKEN` 可用：
 
 - `OPENAI_ACCESS_TOKEN`  和 `OPENAI_API_KEY` 二选一，同时存在时，`OPENAI_API_KEY` 优先
-- `API_REVERSE_PROXY` 设置反向代理，可选，默认：`https://ai.fakeopen.com/api/conversation`，[社区](https://github.com/transitive-bullshit/chatgpt-api#reverse-proxy)（注意：只有这两个是推荐，其他第三方来源，请自行甄别）
+- `API_REVERSE_PROXY` 设置反向代理，可选，默认：`https://bypass.churchless.tech/api/conversation`，[社区](https://github.com/transitive-bullshit/chatgpt-api#reverse-proxy)（注意：只有这两个是推荐，其他第三方来源，请自行甄别）
 
 通用：
 
@@ -237,21 +234,6 @@ services:
 ```
 - `OPENAI_API_BASE_URL`  可选，设置 `OPENAI_API_KEY` 时可用
 - `OPENAI_API_MODEL`  可选，设置 `OPENAI_API_KEY` 时可用
-
-#### 防止爬虫抓取
-
-**nginx**
-
-将下面配置填入nginx配置文件中，可以参考 `docker-compose/nginx/nginx.conf` 文件中添加反爬虫的方法
-
-```
-    # 防止爬虫抓取
-    if ($http_user_agent ~* "360Spider|JikeSpider|Spider|spider|bot|Bot|2345Explorer|curl|wget|webZIP|qihoobot|Baiduspider|Googlebot|Googlebot-Mobile|Googlebot-Image|Mediapartners-Google|Adsbot-Google|Feedfetcher-Google|Yahoo! Slurp|Yahoo! Slurp China|YoudaoBot|Sosospider|Sogou spider|Sogou web spider|MSNBot|ia_archiver|Tomato Bot|NSPlayer|bingbot")
-    {
-      return 403;
-    }
-```
-
 ###  使用 Railway 部署
 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/yytmgc)
@@ -309,6 +291,60 @@ PS: 不进行打包，直接在服务器上运行 `pnpm start` 也可
 pnpm build
 ```
 
+## 使用 systemctl 部署，实现开机自启动
+#### 后端服务
+sudo vim /etc/systemd/system/chatgpt-backend.service 
+```bash
+# 添加以下内容
+[Unit]
+Description=chatgpt-backend
+[Service]
+WorkingDirectory=xxx/chatgpt-web/service # 请修改成你的后端服务文件夹的绝对路径
+ExecStart=/usr/local/bin/pnpm prod
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+```
+# 保存退出 :wq
+```bash
+sudo systemctl enable chatgpt-backend.service  # 开机自启
+sudo systemctl start chatgpt-backend.service  # 启动服务
+sudo systemctl status chatgpt-backend.service # 查看服务状态
+sudo systemctl stop chatgpt-backend.service # 停止服务
+```
+#### 前端服务
+sudo vim /etc/systemd/system/chatgpt-frontend.service 
+```bash
+# 添加以下内容
+[Unit]
+Description=chatgpt-frontend
+[Service]
+WorkingDirectory=xxx/chatgpt-web # 请修改成你的前端服务文件夹的绝对路径
+ExecStart=/usr/local/bin/pnpm run dev
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target
+```
+# 保存退出 :wq
+```bash
+sudo systemctl enable chatgpt-frontend.service  # 开机自启
+sudo systemctl start chatgpt-frontend.service  # 启动服务
+sudo systemctl status chatgpt-frontend.service # 查看服务状态
+sudo systemctl stop chatgpt-frontend.service # 停止服务
+```
+### frp
+```bash
+[chatgpt_tcp]
+type = tcp
+local_ip = 172.17.0.1     
+local_port = 1995
+remote_port = 1095
+```
+
 ## 常见问题
 Q: 为什么 `Git` 提交总是报错？
 
@@ -325,31 +361,3 @@ A: `vscode` 请安装项目推荐插件，或手动安装 `Eslint` 插件。
 Q: 前端没有打字机效果？
 
 A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx 会尝试从后端缓冲一定大小的数据再发送给浏览器。请尝试在反代参数后添加 `proxy_buffering off;`，然后重载 Nginx。其他 web server 配置同理。
-
-## 参与贡献
-
-贡献之前请先阅读 [贡献指南](./CONTRIBUTING.md)
-
-感谢所有做过贡献的人!
-
-<a href="https://github.com/Chanzhaoyu/chatgpt-web/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Chanzhaoyu/chatgpt-web" />
-</a>
-
-## 赞助
-
-如果你觉得这个项目对你有帮助，并且情况允许的话，可以给我一点点支持，总之非常感谢支持～
-
-<div style="display: flex; gap: 20px;">
-	<div style="text-align: center">
-		<img style="max-width: 100%" src="./docs/wechat.png" alt="微信" />
-		<p>WeChat Pay</p>
-	</div>
-	<div style="text-align: center">
-		<img style="max-width: 100%" src="./docs/alipay.png" alt="支付宝" />
-		<p>Alipay</p>
-	</div>
-</div>
-
-## License
-MIT © [ChenZhaoYu](./license)
