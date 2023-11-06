@@ -26,10 +26,11 @@ export default {
     failed: '실패',
     verify: '검증',
     unauthorizedTips: '인증되지 않았습니다. 먼저 확인하십시오.',
+    stopResponding: '응답 중지',
   },
   chat: {
     newChatButton: '새로운 채팅',
-    placeholder: '무엇이든 물어보세요...(Shift + Enter = 줄바꿈, 문제가 발생하면 설정에서 메시지 보드로 피드백할 수 있습니다)',
+    placeholder: '무엇이든 물어보세요...(Shift + Enter = 줄바꿈, "/"를 눌러서 힌트를 보세요)',
     placeholderMobile: '무엇이든 물어보세요...',
     copy: '복사',
     copied: '복사됨',

@@ -15,9 +15,9 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: 'http://aigrantli.com/%E5%8D%9A%E5%AE%A2/chatgpt/robots-gdccb68ad8_1920.jpg',
+      avatar: 'http://cdn.aigrantli.com/%E5%8D%9A%E5%AE%A2/%E5%A4%B4%E5%83%8F/A%203D%20render%20of%20an%20astronaut%20walking%20in%20a%20green%20desert.webp',
       name: 'GrantLi',
-      description: 'Star on <a href="https://github.com/GJXS1980/chatgpt-web/tree/v1.2" class="text-blue-500" target="_blank" >GitHub</a>',
+      description: '点击浏览 <a href="http://www.aigrantli.com" class="text-blue-500" target="_blank" >个人网站</a>',
     },
   }
 }
